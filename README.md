@@ -1,6 +1,6 @@
 # RAG MCP Server
 
-**An [MCP](https://modelcontextprotocol.io) server that gives Claude (or any MCP client) semantic search over a local ChromaDB knowledge base, with citations.**
+**An [MCP](https://modelcontextprotocol.io) server that gives any MCP client (an AI assistant or agent) semantic search over a local ChromaDB knowledge base, with citations.**
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![MCP](https://img.shields.io/badge/MCP-server-8A2BE2)
@@ -11,19 +11,19 @@ Companion to [astraeus-rag-assistant](https://github.com/Mounish16/astraeus-rag-
 
 ## Why retrieval-only?
 
-An MCP host such as Claude already has a strong language model. The server's job is to hand it the right passages, with sources, and to stay out of the way:
+An MCP host (an AI assistant or agent app) already has a strong language model. The server's job is to hand it the right passages, with sources, and to stay out of the way:
 
 ```
- You ask Claude a question
+ You ask the assistant a question
           │
           ▼
- Claude (MCP client) ── calls tool ──►  rag-mcp-server
+ MCP client (LLM) ─── calls tool ──►  rag-mcp-server
           ▲                                  │  embed query
           │                                  ▼
           └──── cited passages ◄──────  ChromaDB  (cosine-style vector search)
           │
           ▼
- Answer written by Claude, citing [1], [2] ...
+ Answer written by the LLM, citing [1], [2] ...
 ```
 
 No second model to host, no prompt template to maintain, and the answer quality improves whenever the connected model does.
@@ -55,7 +55,11 @@ python -m rag_mcp.ingest
 
 The first run downloads the `all-MiniLM-L6-v2` embedding model (about 90 MB). To index your own files, set `RAG_DATA_DIR` (see [Configuration](#configuration)). Supported formats: `.txt`, `.md`, `.json`, `.jsonl`, `.yaml`, `.yml`, `.pdf`.
 
-### Connect it to Claude Desktop
+### Connect it to an MCP client
+
+Any MCP client that supports stdio servers can run it. Examples for two popular clients follow; for others, use the same command, arguments and environment variables.
+
+#### Claude Desktop
 
 Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), using **absolute paths**:
 
@@ -74,9 +78,9 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), 
 }
 ```
 
-Restart Claude Desktop, then try: *"What is on Deck 2 of the Astraeus-9?"* Claude will call `search_documents` and answer from the returned passages.
+Restart the app, then try: *"What is on Deck 2 of the Astraeus-9?"* The assistant will call `search_documents` and answer from the returned passages.
 
-### Connect it to Claude Code
+#### Claude Code
 
 ```bash
 claude mcp add rag-knowledge-base \
@@ -84,11 +88,53 @@ claude mcp add rag-knowledge-base \
   -- $PWD/.venv/bin/python -m rag_mcp
 ```
 
-### Inspect it interactively
+### Try it in the MCP Inspector (no AI client needed)
 
-```bash
-npx @modelcontextprotocol/inspector .venv/bin/python -m rag_mcp
-```
+The [MCP Inspector](https://github.com/modelcontextprotocol/inspector) is a browser page for calling the server's tools by hand. It needs Node.js (for `npx`).
+
+1. From the project folder, with the virtual environment active and the index built:
+
+   ```bash
+   cd rag-mcp-server
+   source .venv/bin/activate
+   npx @modelcontextprotocol/inspector -e RAG_DATA_DIR=$PWD/sample_data -e RAG_INDEX_DIR=$PWD/index/chroma python -m rag_mcp
+   ```
+
+2. The terminal prints a **session token** and a link that already contains it:
+
+   ```
+   Session token: <long hex string>
+   Open inspector with token pre-filled:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<long hex string>
+   ```
+
+   Open that full link. The token changes on every start and only works for that run on your machine.
+
+3. If you opened plain `http://127.0.0.1:6274` instead, you will see *"Connection Error - Did you add the proxy session token in Configuration?"*. Fix it by opening **Configuration** in the left sidebar, pasting the token into **Proxy Session Token**, and clicking **Connect**.
+
+4. Open the **Tools** tab, click **List Tools**, pick `search_documents`, fill in the arguments and click **Run Tool**.
+
+Settings if you fill the form in by hand instead of using the command above:
+
+| Field | Value |
+|---|---|
+| Transport | STDIO |
+| Command | `python` |
+| Arguments | `-m rag_mcp` |
+| Environment variables | `RAG_DATA_DIR` = absolute path to `sample_data`, `RAG_INDEX_DIR` = absolute path to `index/chroma` |
+
+See [docs/EXAMPLES.md](docs/EXAMPLES.md) for ready-made queries to paste in, and what each should return.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Inspector says *"Did you add the proxy session token in Configuration?"* | Open the token link printed in the terminal, or paste the token into Configuration, Proxy Session Token |
+| `ImportError: cannot import name 'Client' from 'mcp'` | An older `mcp` from another environment (for example conda) is being used. Activate `.venv` and run `python -m pytest` instead of `pytest` |
+| Searches return nothing or the index is missing | Run `python -m rag_mcp.ingest` first |
+| Server does not show up in Claude Desktop | Use absolute paths in the config, restart Claude Desktop fully, and read `~/Library/Logs/Claude/mcp-server-rag-knowledge-base.log` |
+| Lots of Hugging Face `HTTP Request` lines in the log | Harmless; they come from the embedding model check on stderr |
+| `npx: command not found` | Install Node.js from nodejs.org |
 
 ## Configuration
 
@@ -130,6 +176,7 @@ src/rag_mcp/
   ingest.py      loading, chunking and indexing (also a CLI)
   server.py      MCP tools, resources and prompts
 tests/           unit, protocol and stdio end-to-end tests
+docs/EXAMPLES.md  ready-made queries and what to expect
 sample_data/     fictional Astraeus-9 corpus for demos
 ```
 

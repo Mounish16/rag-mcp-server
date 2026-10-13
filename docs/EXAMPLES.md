@@ -6,7 +6,7 @@ Lower `distance` means a closer match. Roughly: below 1.0 is a good match, above
 
 ## In the MCP Inspector
 
-Start it as described in the [README](../README.md#try-it-in-the-mcp-inspector-no-claude-needed), open the token link, click **Connect**, then use the tabs below.
+Start it as described in the [README](../README.md#try-it-in-the-mcp-inspector-no-ai-client-needed), open the token link, click **Connect**, then use the tabs below.
 
 ### Tools tab: `search_documents`
 
@@ -39,7 +39,7 @@ Start it as described in the [README](../README.md#try-it-in-the-mcp-inspector-n
 - `grounded_answer` with `question` = `What is on Deck 2?` returns the instruction text that tells a model to search, answer only from the results and cite sources.
 - `summarize_source` with `source` = `manuals/blueprint_notes.txt` returns a prompt asking the model to summarise that file.
 
-## In Claude Desktop or Claude Code
+## In an MCP client (Claude Desktop, Claude Code, etc.)
 
 After adding the server (see the README), ask in plain language:
 
@@ -49,9 +49,9 @@ After adding the server (see the README), ask in plain language:
 - "Summarise the blueprint notes."
 - "Does the knowledge base say anything about a pizza oven?" (it should say it found nothing relevant)
 
-Claude calls `search_documents`, reads the returned passages and cites the sources in its answer.
+The assistant calls `search_documents`, reads the returned passages and cites the sources in its answer.
 
-## From a script (no Claude, no browser)
+## From a script (no AI client, no browser)
 
 ```python
 import asyncio, os, sys
@@ -83,4 +83,4 @@ Point `RAG_DATA_DIR` at any folder of `.txt`, `.md`, `.json`, `.jsonl`, `.yaml`,
 RAG_DATA_DIR=/path/to/your/docs python -m rag_mcp.ingest
 ```
 
-Then use the same `RAG_DATA_DIR` and `RAG_INDEX_DIR` values in the Inspector command or the Claude Desktop config.
+Then use the same `RAG_DATA_DIR` and `RAG_INDEX_DIR` values in the Inspector command or your client's config.
