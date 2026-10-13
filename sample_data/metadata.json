@@ -1,0 +1,15 @@
+{
+  "dataset_name": "Astraeus-9 Mars Stationed Spaceship Corpus",
+  "version": "1.0.0",
+  "created_utc": "2026-02-27T19:44:37.553233Z",
+  "structure": [
+    "manuals",
+    "crew",
+    "ship_logs",
+    "security",
+    "martian_ops",
+    "systems",
+    "ai_core"
+  ],
+  "description": "Fictional RAG-ready corpus covering technical manuals, crew, logs, incidents, systems visited, Martian ops, and AI core."
+}

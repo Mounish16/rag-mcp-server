@@ -1,0 +1,39 @@
+[
+  {
+    "star_system": "Tau Cygni",
+    "coordinates": "19.41 ly from Sol",
+    "visit_period": "2374–2376",
+    "notable_events": [
+      "Studied crystalline mineral life on Tau Cygni-B",
+      "Detected sub-space gravitational distortions"
+    ],
+    "discoveries": [
+      "Helioshard crystals",
+      "stable wormhole fragment"
+    ]
+  },
+  {
+    "star_system": "Epsilon Eridani",
+    "coordinates": "10.5 ly from Sol",
+    "visit_period": "2384–2386",
+    "notable_events": [
+      "Micro-fracture hull damage from debris ring",
+      "Successful mapping of asteroid mineral belts"
+    ],
+    "discoveries": [
+      "High-purity nickel-iron asteroids"
+    ]
+  },
+  {
+    "star_system": "Proxima Centauri",
+    "coordinates": "4.24 ly from Sol",
+    "visit_period": "2382–2383",
+    "notable_events": [
+      "Long-duration observation of Proxima b atmosphere",
+      "Recorded stellar flare cycles"
+    ],
+    "discoveries": [
+      "Trace water vapor patterns"
+    ]
+  }
+]

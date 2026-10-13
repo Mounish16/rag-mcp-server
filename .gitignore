@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Local vector index (rebuilt with `python -m rag_mcp.ingest`)
+index/
+
+# Secrets
+.env
+.env.*

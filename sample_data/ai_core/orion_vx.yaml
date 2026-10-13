@@ -1,0 +1,12 @@
+id: ORION-VX
+self_awareness_level: Tier 2
+primary_objective: Crew preservation and scientific discovery
+restricted_directives:
+  - No activation of self-replicating nanobot protocols
+personality: Analytical, monotone, loyal to Cmdr. Alex Rhyder
+decision_log:
+  -
+    date: 2387-07-09
+    context: Unauthorized airlock cycle
+    decision: Override request; alert security; lockout for 10 minutes
+    rationale: Risk to crew life exceeded protocol threshold

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Dr. Mira Lanthe",
+    "rank": "Chief Xenobiologist",
+    "species": "Human",
+    "home_world": "Mars Colony – New Olympus",
+    "service_record": [
+      "Lead investigator on the Europa Microbial Ice Caves Study",
+      "Advisor to the Solar Biohazard Response Taskforce"
+    ],
+    "skills": [
+      "xenobiology",
+      "genomics",
+      "microscopic AI tools"
+    ],
+    "psychological_profile": "Calm under pressure; introverted; highly analytical.",
+    "mission_notes": "Discovered unknown protein strands on Titan indicating possible silicon-based microbes.",
+    "last_known_activity": "Stationed in Lab Deck 2, conducting soil analysis."
+  },
+  {
+    "name": "Cmdr. Alex Rhyder",
+    "rank": "Commanding Officer",
+    "species": "Human",
+    "home_world": "Earth – Nairobi Arcology",
+    "service_record": [
+      "Commanded relief convoy during the Vesta Quake",
+      "Negotiated truce at the Ceres Mining Accord"
+    ],
+    "skills": [
+      "command",
+      "tactics",
+      "diplomacy"
+    ],
+    "psychological_profile": "Decisive, mission-focused, empathetic leadership style.",
+    "mission_notes": "Personal priority: crew safety and scientific integrity.",
+    "last_known_activity": "On bridge reviewing approach vectors to Olympus Mons Port."
+  },
+  {
+    "name": "Raynor Holt",
+    "rank": "Ensign – Engineering",
+    "species": "Human",
+    "home_world": "Luna – Mare Tranquillitatis",
+    "service_record": [
+      "Apprentice on the Helion Gate Array",
+      "Plasma conduit retrofits on Callisto Waystation"
+    ],
+    "skills": [
+      "plasma systems",
+      "hull welding",
+      "diagnostics"
+    ],
+    "psychological_profile": "Eager, risk-tolerant, responsive to mentorship.",
+    "mission_notes": "Involved in Deck 3 coolant incident; commendation for rapid response.",
+    "last_known_activity": "Engineering Bay, Deck 7."
+  }
+]

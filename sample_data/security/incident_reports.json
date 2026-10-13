@@ -1,0 +1,39 @@
+[
+  {
+    "incident_id": "SEC-2231-A",
+    "date": "2381-04-18",
+    "location": "Deck 3 – Cryo Storage",
+    "description": "Coolant leak due to micro-meteor puncture.",
+    "affected_systems": [
+      "cryo-pods 12–19",
+      "plasma coolant grid"
+    ],
+    "crew_involved": [
+      "Raynor Holt",
+      "Mia Zhao"
+    ],
+    "status": "Resolved",
+    "follow_up_actions": [
+      "Reinforced shielding plates",
+      "Installed early-leak detection sensors"
+    ]
+  },
+  {
+    "incident_id": "SEC-2277-C",
+    "date": "2387-07-09",
+    "location": "Airlock 2",
+    "description": "Unauthorized cycle request blocked by ORION-VX. No decompression occurred.",
+    "affected_systems": [
+      "airlock control",
+      "proximity sensors"
+    ],
+    "crew_involved": [
+      "Unknown"
+    ],
+    "status": "Under Review",
+    "follow_up_actions": [
+      "Audit access logs",
+      "Rotate access codes"
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "sol": 8842,
+    "report": "Docked at Olympus Mons Port 3. Dust storm warnings; outer hull sensors offline for 3 hrs.",
+    "pressure_kpa": 0.62,
+    "actions": [
+      "activated electrostatic dust field",
+      "rerouted sensor input to internal grid"
+    ]
+  },
+  {
+    "sol": 8845,
+    "report": "Supply transfer to New Olympus Colony completed. Hydroponic seed packs delivered.",
+    "pressure_kpa": 0.61,
+    "actions": [
+      "verified airlock seals",
+      "logged cargo manifest #M-3381"
+    ]
+  }
+]

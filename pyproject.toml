@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-mcp-server"
+version = "0.1.0"
+description = "MCP server that exposes a local ChromaDB knowledge base to MCP clients such as Claude"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.0",
+    "chromadb>=1.0",
+    "sentence-transformers>=2.7",
+    "pypdf>=4.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+rag-mcp-server = "rag_mcp.server:main"
+rag-mcp-ingest = "rag_mcp.ingest:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

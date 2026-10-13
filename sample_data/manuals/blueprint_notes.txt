@@ -1,0 +1,15 @@
+Deck Layout Summary
+
+Deck 1: Command Bridge, Navigation, Tactical Console
+Deck 2: Laboratories (Xenobiology, Spectrometry, Geo-Analytics)
+Deck 3: Cryo Storage, Medical Bay, Quarantine
+Deck 4: Habitat Ring A (quarters, galley, recreation)
+Deck 5: Habitat Ring B (quarters, hydroponics, water treatment)
+Deck 6: AI Core, Data Center, Comms Relay
+Deck 7: Engineering Bay, Reactor Access, Coolant Reservoirs
+Deck 8: Cargo Hold, Hangar, Drone Bay
+
+Access Restrictions:
+- Deck 6 (AI Core): Level-6 clearance
+- Reactor Control: Level-5 clearance
+- Quarantine Labs: Level-4 clearance
