@@ -41,27 +41,94 @@ No second model to host, no prompt template to maintain, and the answer quality 
 | Prompt | `grounded_answer(question)` | Instructs the model to search, answer only from results and cite |
 | Prompt | `summarize_source(source)` | Summarise one indexed file |
 
+## Requirements
+
+- Python 3.10 or newer
+- About 500 MB of disk space for dependencies and the embedding model (downloaded on first use)
+- Node.js, only if you want to use the optional MCP Inspector
+
+Works on macOS, Linux and Windows.
+
 ## Quick start
+
+macOS / Linux:
 
 ```bash
 git clone https://github.com/Mounish16/rag-mcp-server.git
 cd rag-mcp-server
-python3 -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -e ".[dev]"
-
-# Index the bundled sample data (the fictional Astraeus-9 spaceship corpus)
 python -m rag_mcp.ingest
 ```
 
-The first run downloads the `all-MiniLM-L6-v2` embedding model (about 90 MB). To index your own files, set `RAG_DATA_DIR` (see [Configuration](#configuration)). Supported formats: `.txt`, `.md`, `.json`, `.jsonl`, `.yaml`, `.yml`, `.pdf`.
+Windows (PowerShell):
 
-### Connect it to an MCP client
+```powershell
+git clone https://github.com/Mounish16/rag-mcp-server.git
+cd rag-mcp-server
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
+python -m rag_mcp.ingest
+```
 
-Any MCP client that supports stdio servers can run it. Examples for two popular clients follow; for others, use the same command, arguments and environment variables.
+The last command indexes the bundled sample data (a fictional spaceship corpus, "Astraeus-9"). The first run downloads the `all-MiniLM-L6-v2` embedding model (about 90 MB). To index your own files, set `RAG_DATA_DIR` (see [Configuration](#configuration)). Supported formats: `.txt`, `.md`, `.json`, `.jsonl`, `.yaml`, `.yml`, `.pdf`.
 
-#### Claude Desktop
+Check that everything works:
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), using **absolute paths**:
+```bash
+python -m pytest
+```
+
+Use `python -m pytest` (not plain `pytest`) so the tests run with the interpreter from your virtual environment.
+
+## Try it in the MCP Inspector
+
+The [MCP Inspector](https://github.com/modelcontextprotocol/inspector) is a browser page for calling the server's tools by hand, with no AI client involved. It needs Node.js.
+
+1. From the project folder, with the virtual environment active and the index built:
+
+   macOS / Linux:
+
+   ```bash
+   npx @modelcontextprotocol/inspector -e RAG_DATA_DIR="$PWD/sample_data" -e RAG_INDEX_DIR="$PWD/index/chroma" python -m rag_mcp
+   ```
+
+   Windows (PowerShell):
+
+   ```powershell
+   npx @modelcontextprotocol/inspector -e RAG_DATA_DIR="$PWD\sample_data" -e RAG_INDEX_DIR="$PWD\index\chroma" python -m rag_mcp
+   ```
+
+2. The terminal prints a **session token** and a link that already contains it:
+
+   ```
+   Session token: <long hex string>
+   Open inspector with token pre-filled:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<long hex string>
+   ```
+
+   Open that full link. The token changes on every start and only works for that run on your machine.
+
+3. If you opened plain `http://localhost:6274` instead, you will see *"Connection Error - Did you add the proxy session token in Configuration?"*. Open **Configuration** in the left sidebar, paste the token into **Proxy Session Token**, and click **Connect**.
+
+4. Open the **Tools** tab, click **List Tools**, choose `search_documents`, enter the arguments and click **Run Tool**.
+
+If you fill in the connection form by hand instead of using the command above:
+
+| Field | Value |
+|---|---|
+| Transport | STDIO |
+| Command | `python` |
+| Arguments | `-m rag_mcp` |
+| Environment variables | `RAG_DATA_DIR` = absolute path to `sample_data`, `RAG_INDEX_DIR` = absolute path to `index/chroma` |
+
+See [docs/EXAMPLES.md](docs/EXAMPLES.md) for ready-made queries and what each should return.
+
+## Connect it to an MCP client
+
+Any MCP client that can launch a stdio server can use it. Add an entry like this to the client's MCP server configuration, using **absolute paths**:
 
 ```json
 {
@@ -78,62 +145,17 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), 
 }
 ```
 
-Restart the app, then try: *"What is on Deck 2 of the Astraeus-9?"* The assistant will call `search_documents` and answer from the returned passages.
-
-#### Claude Code
-
-```bash
-claude mcp add rag-knowledge-base \
-  -e RAG_INDEX_DIR=$PWD/index/chroma -e RAG_DATA_DIR=$PWD/sample_data \
-  -- $PWD/.venv/bin/python -m rag_mcp
-```
-
-### Try it in the MCP Inspector (no AI client needed)
-
-The [MCP Inspector](https://github.com/modelcontextprotocol/inspector) is a browser page for calling the server's tools by hand. It needs Node.js (for `npx`).
-
-1. From the project folder, with the virtual environment active and the index built:
-
-   ```bash
-   cd rag-mcp-server
-   source .venv/bin/activate
-   npx @modelcontextprotocol/inspector -e RAG_DATA_DIR=$PWD/sample_data -e RAG_INDEX_DIR=$PWD/index/chroma python -m rag_mcp
-   ```
-
-2. The terminal prints a **session token** and a link that already contains it:
-
-   ```
-   Session token: <long hex string>
-   Open inspector with token pre-filled:
-   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<long hex string>
-   ```
-
-   Open that full link. The token changes on every start and only works for that run on your machine.
-
-3. If you opened plain `http://127.0.0.1:6274` instead, you will see *"Connection Error - Did you add the proxy session token in Configuration?"*. Fix it by opening **Configuration** in the left sidebar, pasting the token into **Proxy Session Token**, and clicking **Connect**.
-
-4. Open the **Tools** tab, click **List Tools**, pick `search_documents`, fill in the arguments and click **Run Tool**.
-
-Settings if you fill the form in by hand instead of using the command above:
-
-| Field | Value |
-|---|---|
-| Transport | STDIO |
-| Command | `python` |
-| Arguments | `-m rag_mcp` |
-| Environment variables | `RAG_DATA_DIR` = absolute path to `sample_data`, `RAG_INDEX_DIR` = absolute path to `index/chroma` |
-
-See [docs/EXAMPLES.md](docs/EXAMPLES.md) for ready-made queries to paste in, and what each should return.
+On Windows the interpreter is `C:\\path\\to\\rag-mcp-server\\.venv\\Scripts\\python.exe` (backslashes doubled in JSON). Restart the client after changing its configuration, then ask something like *"What is on Deck 2 of the Astraeus-9?"*. The client should call `search_documents` and answer from the returned passages.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
 | Inspector says *"Did you add the proxy session token in Configuration?"* | Open the token link printed in the terminal, or paste the token into Configuration, Proxy Session Token |
-| `ImportError: cannot import name 'Client' from 'mcp'` | An older `mcp` from another environment (for example conda) is being used. Activate `.venv` and run `python -m pytest` instead of `pytest` |
-| Searches return nothing or the index is missing | Run `python -m rag_mcp.ingest` first |
-| Server does not show up in Claude Desktop | Use absolute paths in the config, restart Claude Desktop fully, and read `~/Library/Logs/Claude/mcp-server-rag-knowledge-base.log` |
-| Lots of Hugging Face `HTTP Request` lines in the log | Harmless; they come from the embedding model check on stderr |
+| `ImportError: cannot import name 'Client' from 'mcp'` | Another environment's older `mcp` package is being used. Activate `.venv` and run `python -m pytest` |
+| Searches return nothing, or the index is missing | Run `python -m rag_mcp.ingest` first |
+| Server does not appear in your MCP client | Use absolute paths in the config, restart the client fully, and check the client's MCP log for the server's stderr output |
+| Many Hugging Face `HTTP Request` lines in the log | Harmless; they come from the embedding model check and go to stderr |
 | `npx: command not found` | Install Node.js from nodejs.org |
 
 ## Configuration
@@ -164,7 +186,7 @@ All settings are environment variables:
 pytest
 ```
 
-25 tests cover chunking and file loading, the vector store, every tool, resource and prompt through a real in-process MCP client, and an end-to-end run that launches the server as a subprocess and talks to it over stdio, the same way Claude Desktop does.
+25 tests cover chunking and file loading, the vector store, every tool, resource and prompt through a real in-process MCP client, and an end-to-end run that launches the server as a subprocess and talks to it over stdio, the same way an MCP client does.
 
 ## Project layout
 
