@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![MCP](https://img.shields.io/badge/MCP-server-8A2BE2)
 ![ChromaDB](https://img.shields.io/badge/Vector%20DB-ChromaDB-orange)
-![Tests](https://img.shields.io/badge/tests-25%20passing-brightgreen)
+[![CI](https://github.com/Mounish16/rag-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/Mounish16/rag-mcp-server/actions/workflows/ci.yml)
 
 Companion to [astraeus-rag-assistant](https://github.com/Mounish16/astraeus-rag-assistant), which answers questions with a local model and a Streamlit UI. This project takes the opposite approach: the server only does **retrieval**, and the model you connect it to writes the answer.
 
