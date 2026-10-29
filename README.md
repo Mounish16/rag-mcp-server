@@ -180,13 +180,33 @@ All settings are environment variables:
 - **Models load lazily**, so the server starts instantly and only pays the embedding-model cost on the first search.
 - **Offline test embedder.** `HashEmbedder` makes the whole test suite, including a real stdio client-to-server run, work without downloading a model.
 
+## Retrieval evaluation
+
+Passing tests show the server works; they do not show that retrieval finds the right passages. [`eval/questions.json`](eval/questions.json) holds 25 questions about the sample corpus, each labelled with the source file(s) that contain the answer. The evaluator indexes the sample data in a temporary folder, runs every question through `search_documents`, and reports:
+
+- **recall@k**: the share of questions where an expected source appears in the top k chunks
+- **MRR**: mean reciprocal rank of the first correct chunk (1.0 means always first)
+
+```bash
+python -m rag_mcp.evaluate
+python -m rag_mcp.evaluate --embedder hash
+```
+
+The first command uses the default `all-MiniLM-L6-v2` model. The second uses the offline hash embedder, which only matches shared words and works as a lower bound.
+
+| Embedder | recall@1 | recall@3 | recall@5 | MRR |
+| --- | --- | --- | --- | --- |
+| Hash (word overlap only) | 0.480 | 0.640 | 0.720 | 0.565 |
+
+The evaluator also lists every question that misses the top 5, which makes it a quick way to compare chunk sizes, embedding models or a future reranker. Scores are measured at source-file level on a small fictional corpus (17 chunks), so treat them as a regression check rather than a benchmark. Run it on your own data by pointing `RAG_DATA_DIR` at it and passing `--questions` with your own labelled set.
+
 ## Tests
 
 ```bash
 pytest
 ```
 
-25 tests cover chunking and file loading, the vector store, every tool, resource and prompt through a real in-process MCP client, and an end-to-end run that launches the server as a subprocess and talks to it over stdio, the same way an MCP client does.
+30 tests cover chunking and file loading, the vector store, every tool, resource and prompt through a real in-process MCP client, and an end-to-end run that launches the server as a subprocess and talks to it over stdio, the same way an MCP client does. They also check that the evaluation question set is well formed.
 
 ## Project layout
 
@@ -196,7 +216,9 @@ src/rag_mcp/
   embedding.py   sentence-transformers and offline hash embedders
   store.py       ChromaDB wrapper (search, get chunk, list sources)
   ingest.py      loading, chunking and indexing (also a CLI)
+  evaluate.py    retrieval evaluation: recall@k and MRR (also a CLI)
   server.py      MCP tools, resources and prompts
+eval/            labelled question set for retrieval evaluation
 tests/           unit, protocol and stdio end-to-end tests
 docs/EXAMPLES.md  ready-made queries and what to expect
 sample_data/     fictional Astraeus-9 corpus for demos

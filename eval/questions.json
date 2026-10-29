@@ -1,0 +1,183 @@
+[
+  {
+    "id": "q01",
+    "question": "How many cryo-pods can the ship hold?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q02",
+    "question": "How many surgical suites does the medical bay have?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q03",
+    "question": "Which vehicles are kept in the hangar?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q04",
+    "question": "For how long can the vessel operate without resupply?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q05",
+    "question": "What clearance level is required to enter the AI core?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf",
+      "manuals/blueprint_notes.txt"
+    ]
+  },
+  {
+    "id": "q06",
+    "question": "What hazards exist around the fusion reactor?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q07",
+    "question": "Which deck houses the laboratories?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf",
+      "manuals/blueprint_notes.txt"
+    ]
+  },
+  {
+    "id": "q08",
+    "question": "What isolation features does the quarantine wing have?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q09",
+    "question": "How often are the drones checked?",
+    "expected_sources": [
+      "manuals/blueprint_notes.pdf"
+    ]
+  },
+  {
+    "id": "q10",
+    "question": "Who is the commanding officer?",
+    "expected_sources": [
+      "crew/crew_profiles.json",
+      "ai_core/orion_vx.yaml"
+    ]
+  },
+  {
+    "id": "q11",
+    "question": "Which crew member found unknown protein strands on Titan?",
+    "expected_sources": [
+      "crew/crew_profiles.json"
+    ]
+  },
+  {
+    "id": "q12",
+    "question": "Where is Dr. Mira Lanthe currently stationed?",
+    "expected_sources": [
+      "crew/crew_profiles.json"
+    ]
+  },
+  {
+    "id": "q13",
+    "question": "What caused the coolant leak in cryo storage?",
+    "expected_sources": [
+      "security/incident_reports.json"
+    ]
+  },
+  {
+    "id": "q14",
+    "question": "What follow-up actions were taken after the unauthorized airlock cycle?",
+    "expected_sources": [
+      "security/incident_reports.json"
+    ]
+  },
+  {
+    "id": "q15",
+    "question": "How did the ship's AI respond to the unauthorized airlock cycle request?",
+    "expected_sources": [
+      "ai_core/orion_vx.yaml",
+      "security/incident_reports.json",
+      "ship_logs/ship_logs.jsonl"
+    ]
+  },
+  {
+    "id": "q16",
+    "question": "What directives is the ship's AI forbidden to follow?",
+    "expected_sources": [
+      "ai_core/orion_vx.yaml"
+    ]
+  },
+  {
+    "id": "q17",
+    "question": "What happened when the ship met the ion storm?",
+    "expected_sources": [
+      "ship_logs/ship_logs.jsonl"
+    ]
+  },
+  {
+    "id": "q18",
+    "question": "When did the ship enter Mars orbit?",
+    "expected_sources": [
+      "ship_logs/ship_logs.jsonl"
+    ]
+  },
+  {
+    "id": "q19",
+    "question": "Which star system was observed for stellar flare cycles?",
+    "expected_sources": [
+      "systems/solar_systems.json"
+    ]
+  },
+  {
+    "id": "q20",
+    "question": "What was discovered at Tau Cygni?",
+    "expected_sources": [
+      "systems/solar_systems.json"
+    ]
+  },
+  {
+    "id": "q21",
+    "question": "Which visited star system is closest to Sol?",
+    "expected_sources": [
+      "systems/solar_systems.json"
+    ]
+  },
+  {
+    "id": "q22",
+    "question": "What sensor problems did the dust storm at Olympus Mons Port cause?",
+    "expected_sources": [
+      "martian_ops/mars_ops.json"
+    ]
+  },
+  {
+    "id": "q23",
+    "question": "What was delivered to the New Olympus Colony?",
+    "expected_sources": [
+      "martian_ops/mars_ops.json"
+    ]
+  },
+  {
+    "id": "q24",
+    "question": "What is the name and version of the dataset?",
+    "expected_sources": [
+      "metadata.json"
+    ]
+  },
+  {
+    "id": "q25",
+    "question": "Which engineer was involved in the Deck 3 coolant incident?",
+    "expected_sources": [
+      "crew/crew_profiles.json",
+      "security/incident_reports.json"
+    ]
+  }
+]
